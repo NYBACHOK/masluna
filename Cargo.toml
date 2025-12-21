@@ -1,5 +1,7 @@
 [workspace]
-members = [ 
+members = [
+    "masluna_cli",
+    "masluna_runtime", 
     "masluna_ui"
 ]
 resolver = "2"
