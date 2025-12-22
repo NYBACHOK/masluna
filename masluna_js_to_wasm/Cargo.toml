@@ -1,0 +1,13 @@
+[package]
+name = "masluna_js_to_wasm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde_json.workspace = true
+
+javy-codegen = { version = "3.0", features = ["plugin_internal"] }
+
+
+[lints]
+workspace = true
