@@ -14,9 +14,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let ui = App::new()?;
 
-    let sr = masluna_ui::commands::start_commands_loop();
+    let (sr, rr) = masluna_ui::commands::start_commands_loop();
 
-    prepare_handlers(ui.clone_strong(), sr);
+    prepare_handlers(ui.clone_strong(), sr, rr);
 
     ui.run()?;
 

@@ -2,12 +2,16 @@ import "fonts/GeosansLight.ttf";
 
 import { Theme } from "base/theme.slint";
 import { AppLogic } from "logic/desktop-window-logic.slint";
-import { Button } from "base/button.slint";
+import { VerticalBox, HorizontalBox, GroupBox, TextEdit, Button } from "std-widgets.slint";
 
 export { AppLogic }
 
 export component App inherits Window {
+    title: "WASM Runner";
+
     in-out property <string> file_path;
+    in-out property <string> preview_content: "Select a file to see preview...";
+    in-out property <string> execution_output: "Output will appear here after execution.";
 
     preferred-width: Theme.default-width;
     preferred-height: Theme.default-height;
@@ -16,19 +20,50 @@ export component App inherits Window {
     default-font-family: Theme.default-font-family;
     background: Theme.base-background;
 
-    VerticalLayout {
+    VerticalBox {
+            spacing: 15px;
+            padding: 20px;
 
-        Text {
-            text: file_path;
-            visible: !file_path.is-empty;
-        }
+            // --- Top Section: File Selection ---
+            HorizontalBox {
+                spacing: 10px;
+                Button {
+                    text: "📂 Select WASM File";
+                    clicked => { AppLogic.file_pick() }
+                }
+                Text {
+                    text: root.file_path;
+                    vertical-alignment: center;
+                    color: Colors.black;
+                    overflow: elide;
+                }
+            }
 
-        Button {
-            text: "select file";
-            bg-pressed-color: Colors.transparent;
-            clicked => {
-                AppLogic.file_pick()
+            // --- Middle Section: Preview ---
+            GroupBox {
+                title: "File Preview (Text Snippet)";
+                TextEdit {
+                    text: root.preview_content;
+                    read-only: true;
+                    height: 120px;
+                }
+            }
+
+            // --- Action Section ---
+            Button {
+                text: "Start Execution";
+                primary: true;
+                enabled: root.file_path != "No file selected";
+                clicked => { AppLogic.run_wasm() }
+            }
+
+            // --- Bottom Section: Output ---
+            GroupBox {
+                title: "Execution Output";
+                TextEdit {
+                    text: root.execution_output;
+                    read-only: true;
+                }
             }
         }
-    }
 }
