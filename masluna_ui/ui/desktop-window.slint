@@ -18,7 +18,6 @@ export component App inherits Window {
 
     VerticalLayout {
 
-        
         Text {
             text: file_path;
             visible: !file_path.is-empty;
@@ -26,6 +25,7 @@ export component App inherits Window {
 
         Button {
             text: "select file";
+            bg-pressed-color: Colors.transparent;
             clicked => {
                 AppLogic.file_pick()
             }
