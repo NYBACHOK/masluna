@@ -8,6 +8,9 @@ description = "Hosting application utulizing WASM"
 [dependencies]
 # Enable `gettext` feature if you need localization. Read about localizing slint apps here: https://docs.slint.dev/latest/docs/slint/guide/development/translations/
 slint = { version = "1.14", features = [] }
+rfd = { version = "0.16", default-features = false, features = [ "async-std", "wayland", "xdg-portal" ] }
+async-compat = "0.2"
+dirs = { version = "6.0" }
 
 [build-dependencies]
 slint-build = "1.14"

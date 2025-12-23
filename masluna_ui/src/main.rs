@@ -3,16 +3,30 @@
 
 use std::error::Error;
 
+use slint::ToSharedString;
+
 slint::include_modules!();
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let ui = AppWindow::new()?;
+    let ui = App::new()?;
 
-    ui.on_request_increase_value({
-        let ui_handle = ui.as_weak();
+    ui.global::<AppLogic>().on_file_pick({
+        let ui = ui.clone_strong();
+
         move || {
-            let ui = ui_handle.unwrap();
-            ui.set_counter(ui.get_counter() + 1);
+            let _handler = slint::spawn_local({
+                let ui = ui.clone_strong();
+                async move {
+                    let file = rfd::AsyncFileDialog::new()
+                        .set_directory(dirs::home_dir().expect("failed to fetch home dir"))
+                        .pick_file()
+                        .await;
+
+                    if let Some(file) = file {
+                        ui.set_file_path(file.path().display().to_shared_string());
+                    }
+                }
+            });
         }
     });
 

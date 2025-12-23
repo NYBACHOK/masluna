@@ -1,0 +1,31 @@
+export enum DeviceType {
+    Desktop,
+    Mobile,
+    Web,
+}
+
+export struct SettingPreference {
+    win-width: string,
+    win-height: string,
+    font-size: string,
+    font-family: string,
+    language: string,
+    always-on-top: bool,
+    no-frame: bool,
+    is-dark: bool,
+}
+
+export global Store {
+    in-out property <DeviceType> device-type: DeviceType.Desktop;
+
+    in-out property <SettingPreference> setting-preference: {
+        win-width: 1200,
+        win-height: 800,
+        font-size: "16",
+        font-family: "Geosans Light",
+        language: "en",
+        always-on-top: false,
+        no-frame: true,
+        is-dark: false,
+    };
+}
